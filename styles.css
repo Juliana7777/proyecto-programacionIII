@@ -1,0 +1,202 @@
+/* --------------------------------------------------
+   RESET GENERAL
+-------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* --------------------------------------------------
+   ESTILOS GENERALES DEL BODY
+-------------------------------------------------- */
+body {
+    background-image: url('fondo.jpg');
+    background-size: cover;          
+    background-repeat: no-repeat;    
+    background-position: center;     
+    background-attachment: fixed;    
+}
+
+/* --------------------------------------------------
+   CONTENEDOR PRINCIPAL
+-------------------------------------------------- */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgb(119, 102, 102);
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+}
+
+/* --------------------------------------------------
+    Titulos
+-------------------------------------------------- */
+h1 {
+    text-align: center;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.tab-content h2 {
+    margin-bottom: 16px;
+}
+
+/* --------------------------------------------------
+ Pestañas
+-------------------------------------------------- */
+.pestanas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.pestana {
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #3c4f5e;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.pestana.activa {
+    color: #793206;
+    border-bottom: 3px solid #978616;
+    font-weight: bold;
+}
+
+.pestana-contenido {
+    display: none;
+}
+
+.pestana-contenido.activa {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+
+
+
+/* --------------------------------------------------
+   Formularios
+-------------------------------------------------- */
+.form-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #410a0a;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border 0.3s;
+}
+
+
+/* --------------------------------------------------
+  Botones
+-------------------------------------------------- */
+
+
+button { /* Boton de guardar estudiante */
+
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #a76245 0%, #520909 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover { /*iluminación del botón*/
+
+    box-shadow: 0 5px 15px rgba(199, 119, 16, 0.928);
+}
+
+.delete-btn {  /* Boton de eliminar  a los estudiantes*/
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.delete-btn:hover { /* Cuando me pare sobre el botón de eliminar*/
+    background: #732815;
+}
+
+/* --------------------------------------------------
+   Tablas
+-------------------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    background: #501616;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #dfc8be;
+}
+
+
+
+/* --------------------------------------------------
+   Mensajes de exito y error
+-------------------------------------------------- */
+.mensaje-confirmacion {  /* Si el estudiante se agregó con éxito a la lista*/
+
+    background: #1cd167;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.mensaje-error{ /* Si el estudiante no se agregó con éxito a la lista*/
+    background: #e74c3c;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 50px;
+    color: #878484;
+    font-style: verdana;
+}
