@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarCarrerasAPI();
     loadEstudiantes();
 
-    // Crear estudiante
+    // Crear perfil del estudiante
     document.getElementById('createForm').addEventListener('submit', e => {
         e.preventDefault();
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Eliminar estudiante por ID
     document.getElementById('deleteForm').addEventListener('submit', e => {
-        e.preventDefault();
+        e.preventDefault(); 
 
         const id = Number(document.getElementById('idEstudiante').value);
         const lista = loadEstudiantesFromStorage();
