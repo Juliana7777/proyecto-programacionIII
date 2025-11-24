@@ -1,6 +1,8 @@
-// Esperar a que cargue el DOM
-document.addEventListener('DOMContentLoaded', function() {
 
+const CARRERAS_API = "https://69235fac3ad095fb84705fcb.mockapi.io/api/v1/Carreras";
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarCarrerasAPI();
     loadEstudiantes();
 
     document.getElementById('createForm').addEventListener('submit', function(e) {
@@ -16,15 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const estudiantes = loadEstudiantesFromStorage();
         estudiantes.push(nuevoEstudiante);
+        saveEstudiantesToStorage(estudiantes);
 
-        const saved = saveEstudiantesToStorage(estudiantes);
-
-        if (saved) {
-            showMessage('createSuccess', 'Perfil de estudiante guardado');
-            document.getElementById('createForm').reset();
-        } else {
-            showMessage('createError', 'Error al guardar el perfil de estudiante');
-        }
+        showMessage('createSuccess', 'Perfil de estudiante guardado');
+        document.getElementById('createForm').reset();
     });
 
     document.getElementById('deleteForm').addEventListener('submit', function(e) {
@@ -40,13 +37,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
         estudiantes.splice(id, 1);
         saveEstudiantesToStorage(estudiantes);
-
         showMessage('deleteSuccess', `Estudiante con ID ${id} eliminado`);
         document.getElementById('deleteForm').reset();
     });
 });
 
-// Cambiar pestañas
+async function cargarCarrerasAPI() {
+    const select = document.getElementById('carrera');
+    select.innerHTML = '<option value="">Cargando opciones...</option>';
+
+    try {
+        const res = await fetch(CARRERAS_API);
+        const data = await res.json();
+
+        select.innerHTML = '<option value="">-- Seleccione opción --</option>';
+
+        data.forEach(c => {
+            const op = document.createElement('option');
+            op.value = c.nombre;
+            op.textContent = c.nombre;
+            select.appendChild(op);
+        });
+
+    } catch (error) {
+        select.innerHTML = '<option value="">Error al cargar carreras</option>';
+    }
+}
+
 function cambiarPestana(nombre) {
     const botones = document.querySelectorAll('.pestana');
     const contenidos = document.querySelectorAll('.pestana-contenido');
@@ -60,7 +77,6 @@ function cambiarPestana(nombre) {
     if (nombre === 'listar') loadEstudiantes();
 }
 
-// LocalStorage
 function loadEstudiantesFromStorage() {
     const data = localStorage.getItem('estudiantes');
     return data ? JSON.parse(data) : [];
@@ -68,16 +84,14 @@ function loadEstudiantesFromStorage() {
 
 function saveEstudiantesToStorage(estudiantes) {
     localStorage.setItem('estudiantes', JSON.stringify(estudiantes));
-    return true;
 }
 
-// Mostrar lista
 function loadEstudiantes() {
     const estudiantes = loadEstudiantesFromStorage();
     const tableContainer = document.getElementById('listTable');
 
     if (estudiantes.length === 0) {
-        tableContainer.innerHTML = '<div class="empty-state"> Aún no hay estudiantes registrados</div>';
+        tableContainer.innerHTML = '<div class="empty-state">Aún no hay estudiantes registrados</div>';
         return;
     }
 
@@ -106,9 +120,7 @@ function loadEstudiantes() {
                 <td>${s.edad}</td>
                 <td>${s.carrera}</td>
                 <td>${s.estrato}</td>
-                <td>
-                <button class="delete-btn" onclick="deleteStudent(${i})">Eliminar</button>
-                </td>
+                <td><button class="delete-btn" onclick="deleteStudent(${i})">Eliminar</button></td>
             </tr>
         `;
     });
@@ -124,11 +136,9 @@ function deleteStudent(i) {
     loadEstudiantes();
 }
 
-// Mensajes
 function showMessage(id, msg) {
     const el = document.getElementById(id);
     el.textContent = msg;
     el.style.display = 'block';
-
     setTimeout(() => el.style.display = 'none', 3000);
 }

@@ -11,7 +11,7 @@
    ESTILOS GENERALES DEL BODY
 -------------------------------------------------- */
 body {
-    background-image: url('fondo.jpg');
+    background-image: url( images/fondo.jpg);
     background-size: cover;          
     background-repeat: no-repeat;    
     background-position: center;     
@@ -175,10 +175,10 @@ td {
 /* --------------------------------------------------
    Mensajes de exito y error
 -------------------------------------------------- */
+
 .mensaje-confirmacion {  /* Si el estudiante se agregó con éxito a la lista*/
 
-    background: #1cd167;
-    color: white;
+    color: rgb(97, 212, 15);
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 20px;
