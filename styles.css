@@ -11,7 +11,7 @@
    ESTILOS GENERALES DEL BODY
 -------------------------------------------------- */
 body {
-    background-image: url( images/fondo.jpg);
+    background-image: url(fondo.jpg);
     background-size: cover;          
     background-repeat: no-repeat;    
     background-position: center;     

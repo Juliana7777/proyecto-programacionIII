@@ -1,46 +1,52 @@
-
+// URL de MockAPI
 const CARRERAS_API = "https://69235fac3ad095fb84705fcb.mockapi.io/api/v1/Carreras";
 
-document.addEventListener('DOMContentLoaded', function() {
+// Inicialización
+document.addEventListener('DOMContentLoaded', () => {
     cargarCarrerasAPI();
     loadEstudiantes();
 
-    document.getElementById('createForm').addEventListener('submit', function(e) {
+    // Crear estudiante
+    document.getElementById('createForm').addEventListener('submit', e => {
         e.preventDefault();
 
-        const nuevoEstudiante = {
+        const estudiante = {
             nombres: document.getElementById('nombres').value,
             apellidos: document.getElementById('apellidos').value,
-            edad: parseInt(document.getElementById('edad').value),
-            estrato: parseInt(document.getElementById('estrato').value),
-            carrera: document.getElementById('carrera').value,
+            edad: Number(document.getElementById('edad').value),
+            estrato: Number(document.getElementById('estrato').value),
+            carrera: document.getElementById('carrera').value
         };
 
-        const estudiantes = loadEstudiantesFromStorage();
-        estudiantes.push(nuevoEstudiante);
-        saveEstudiantesToStorage(estudiantes);
+        const lista = loadEstudiantesFromStorage();
+        lista.push(estudiante);
 
+        saveEstudiantesToStorage(lista);
         showMessage('createSuccess', 'Perfil de estudiante guardado');
-        document.getElementById('createForm').reset();
+        e.target.reset();
     });
 
-    document.getElementById('deleteForm').addEventListener('submit', function(e) {
+    // Eliminar estudiante por ID
+    document.getElementById('deleteForm').addEventListener('submit', e => {
         e.preventDefault();
 
-        const id = parseInt(document.getElementById('idEstudiante').value);
-        const estudiantes = loadEstudiantesFromStorage();
+        const id = Number(document.getElementById('idEstudiante').value);
+        const lista = loadEstudiantesFromStorage();
 
-        if (id < 0 || id >= estudiantes.length) {
+        if (id < 0 || id >= lista.length) {
             showMessage('deleteError', 'ID de estudiante no válido');
             return;
         }
 
-        estudiantes.splice(id, 1);
-        saveEstudiantesToStorage(estudiantes);
+        lista.splice(id, 1);
+        saveEstudiantesToStorage(lista);
+
         showMessage('deleteSuccess', `Estudiante con ID ${id} eliminado`);
-        document.getElementById('deleteForm').reset();
+        e.target.reset();
     });
 });
+
+// ------------------ API ------------------
 
 async function cargarCarrerasAPI() {
     const select = document.getElementById('carrera');
@@ -59,17 +65,16 @@ async function cargarCarrerasAPI() {
             select.appendChild(op);
         });
 
-    } catch (error) {
+    } catch {
         select.innerHTML = '<option value="">Error al cargar carreras</option>';
     }
 }
 
-function cambiarPestana(nombre) {
-    const botones = document.querySelectorAll('.pestana');
-    const contenidos = document.querySelectorAll('.pestana-contenido');
+// ------------------ Navegación ------------------
 
-    botones.forEach(btn => btn.classList.remove('activa'));
-    contenidos.forEach(sec => sec.classList.remove('activa'));
+function cambiarPestana(nombre) {
+    document.querySelectorAll('.pestana').forEach(b => b.classList.remove('activa'));
+    document.querySelectorAll('.pestana-contenido').forEach(c => c.classList.remove('activa'));
 
     document.querySelector(`[onclick="cambiarPestana('${nombre}')"]`).classList.add('activa');
     document.getElementById(nombre).classList.add('activa');
@@ -77,64 +82,58 @@ function cambiarPestana(nombre) {
     if (nombre === 'listar') loadEstudiantes();
 }
 
-function loadEstudiantesFromStorage() {
-    const data = localStorage.getItem('estudiantes');
-    return data ? JSON.parse(data) : [];
-}
+// ------------------ LocalStorage ------------------
 
-function saveEstudiantesToStorage(estudiantes) {
+const loadEstudiantesFromStorage = () =>
+    JSON.parse(localStorage.getItem('estudiantes') || "[]");
+
+const saveEstudiantesToStorage = estudiantes =>
     localStorage.setItem('estudiantes', JSON.stringify(estudiantes));
-}
+
+// ------------------ Tabla ------------------
 
 function loadEstudiantes() {
-    const estudiantes = loadEstudiantesFromStorage();
-    const tableContainer = document.getElementById('listTable');
+    const lista = loadEstudiantesFromStorage();
+    const cont = document.getElementById('listTable');
 
-    if (estudiantes.length === 0) {
-        tableContainer.innerHTML = '<div class="empty-state">Aún no hay estudiantes registrados</div>';
+    if (lista.length === 0) {
+        cont.innerHTML = '<div class="empty-state">Aún no hay estudiantes registrados</div>';
         return;
     }
 
-    let html = `
+    const filas = lista.map(
+        (s, i) => `
+        <tr>
+            <td>${i}</td>
+            <td>${s.nombres}</td>
+            <td>${s.apellidos}</td>
+            <td>${s.edad}</td>
+            <td>${s.carrera}</td>
+            <td>${s.estrato}</td>
+            <td><button class="delete-btn" onclick="deleteStudent(${i})">Eliminar</button></td>
+        </tr>`
+    ).join('');
+
+    cont.innerHTML = `
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Edad</th>
-                    <th>Carrera</th>
-                    <th>Estrato</th>
-                    <th></th>
+                    <th>ID</th><th>Nombres</th><th>Apellidos</th>
+                    <th>Edad</th><th>Carrera</th><th>Estrato</th><th></th>
                 </tr>
             </thead>
-            <tbody>
-    `;
-
-    estudiantes.forEach((s, i) => {
-        html += `
-            <tr>
-                <td>${i}</td>
-                <td>${s.nombres}</td>
-                <td>${s.apellidos}</td>
-                <td>${s.edad}</td>
-                <td>${s.carrera}</td>
-                <td>${s.estrato}</td>
-                <td><button class="delete-btn" onclick="deleteStudent(${i})">Eliminar</button></td>
-            </tr>
-        `;
-    });
-
-    html += `</tbody></table>`;
-    tableContainer.innerHTML = html;
+            <tbody>${filas}</tbody>
+        </table>`;
 }
 
 function deleteStudent(i) {
-    const estudiantes = loadEstudiantesFromStorage();
-    estudiantes.splice(i, 1);
-    saveEstudiantesToStorage(estudiantes);
+    const lista = loadEstudiantesFromStorage();
+    lista.splice(i, 1);
+    saveEstudiantesToStorage(lista);
     loadEstudiantes();
 }
+
+// ------------------ Mensajes ------------------
 
 function showMessage(id, msg) {
     const el = document.getElementById(id);
