@@ -1,7 +1,4 @@
-/* --------------------------------------------------
-   RESET GENERAL
--------------------------------------------------- */
-* {
+.formato-general {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -67,8 +64,8 @@ h1 {
 }
 
 .pestana.activa {
-    color: #793206;
-    border-bottom: 3px solid #978616;
+    color: #794c11;
+    border-bottom: 3px solid #9e8a0c;
     font-weight: bold;
 }
 

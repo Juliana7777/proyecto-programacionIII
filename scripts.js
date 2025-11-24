@@ -1,5 +1,5 @@
 // URL de MockAPI
-const CARRERAS_API = "https://69235fac3ad095fb84705fcb.mockapi.io/api/v1/Carreras";
+const CARRERAS_API = "https://69235fac3ad095fb84705fcb.mockapi.io/api/v1/Carreras"; // En la simulación de API se guardan lasa carreras//
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,38 +34,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const lista = loadEstudiantesFromStorage();
 
         if (id < 0 || id >= lista.length) {
-            showMessage('deleteError', 'ID de estudiante no válido');
+            showMessage('deleteError', 'ID de estudiante no válido'); //Si no encuentra el ID que se solicita//
             return;
         }
 
-        lista.splice(id, 1);
+        lista.splice(id, 1); // Elimina el estudiante de la lista //
         saveEstudiantesToStorage(lista);
 
         showMessage('deleteSuccess', `Estudiante con ID ${id} eliminado`);
-        e.target.reset();
+        e.target.reset(); // Reinicia el formulario //
     });
 });
 
 // ------------------ API ------------------
 
-async function cargarCarrerasAPI() {
-    const select = document.getElementById('carrera');
+async function cargarCarrerasAPI() { // Carga las carreras desde la simulación  API //
+
+    const select = document.getElementById('carrera'); // Selecciona el elemento select del formulario //
     select.innerHTML = '<option value="">Cargando opciones...</option>';
 
     try {
-        const res = await fetch(CARRERAS_API);
+        const res = await fetch(CARRERAS_API); // Realiza la solicitud a la API //
         const data = await res.json();
 
         select.innerHTML = '<option value="">-- Seleccione opción --</option>';
 
-        data.forEach(c => {
+        data.forEach(c => { // Recorre las carreras obtenidas de la API //
+
             const op = document.createElement('option');
             op.value = c.nombre;
             op.textContent = c.nombre;
             select.appendChild(op);
         });
 
-    } catch {
+    } catch { // Manejo de errores en caso de fallo en la solicitud //
         select.innerHTML = '<option value="">Error al cargar carreras</option>';
     }
 }
