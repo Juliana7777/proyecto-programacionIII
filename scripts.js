@@ -61,10 +61,10 @@ async function cargarCarrerasAPI() { // Carga las carreras desde la simulación 
 
         data.forEach(c => { // Recorre las carreras obtenidas de la API //
 
-            const op = document.createElement('option'); 
-            op.value = c.nombre; 
-            op.textContent = c.nombre; // Agrega la carrera como opción en el select //
-            select.appendChild(op); // Agrega la opción al select //
+            const op = document.createElement('option');
+            op.value = c.nombre;
+            op.textContent = c.nombre;
+            select.appendChild(op);
         });
 
     } catch { // Manejo de errores en caso de fallo en la solicitud //
@@ -72,11 +72,10 @@ async function cargarCarrerasAPI() { // Carga las carreras desde la simulación 
     }
 }
 
+// ------------------ Navegación ------------------
 
-
-// ------------------ Pestañas ------------------
 function cambiarPestana(nombre) {
-    document.querySelectorAll('.pestana').forEach(b => b.classList.remove('activa'));  // Activa: la pestaña seleccionada //
+    document.querySelectorAll('.pestana').forEach(b => b.classList.remove('activa'));
     document.querySelectorAll('.pestana-contenido').forEach(c => c.classList.remove('activa'));
 
     document.querySelector(`[onclick="cambiarPestana('${nombre}')"]`).classList.add('activa');
@@ -85,25 +84,21 @@ function cambiarPestana(nombre) {
     if (nombre === 'listar') loadEstudiantes();
 }
 
-
-
 // ------------------ LocalStorage ------------------
 
-const loadEstudiantesFromStorage = () => // Carga la lista de estudiantes desde localStorage //
-    JSON.parse(localStorage.getItem('estudiantes') || "[]"); // Si no hay datos, devuelve un array vacío //
+const loadEstudiantesFromStorage = () =>
+    JSON.parse(localStorage.getItem('estudiantes') || "[]");
 
-const saveEstudiantesToStorage = estudiantes => // Guarda la lista de estudiantes en localStorage //
-    localStorage.setItem('estudiantes', JSON.stringify(estudiantes)); // Convierte el array a cadena JSON //
+const saveEstudiantesToStorage = estudiantes =>
+    localStorage.setItem('estudiantes', JSON.stringify(estudiantes));
 
-
-
-// ------------------ Tabla de estudiantes registrados  ------------------
+// ------------------ Tabla ------------------
 
 function loadEstudiantes() {
-    const lista = loadEstudiantesFromStorage();  // Carga la lista de estudiantes //
+    const lista = loadEstudiantesFromStorage();
     const cont = document.getElementById('listTable');
 
-    if (lista.length === 0) { // Si no hay estudiantes registrados //
+    if (lista.length === 0) {
         cont.innerHTML = '<div class="empty-state">Aún no hay estudiantes registrados</div>';
         return;
     }
@@ -121,7 +116,6 @@ function loadEstudiantes() {
         </tr>`
     ).join('');
 
- // Genera las filas de la tabla con los datos de los estudiantes //
     cont.innerHTML = `
         <table>
             <thead>
@@ -135,15 +129,15 @@ function loadEstudiantes() {
 }
 
 function deleteStudent(i) {
-    const lista = loadEstudiantesFromStorage(); // Carga la lista de estudiantes //
-    lista.splice(i, 1);  // Elimina el estudiante de la lista //
+    const lista = loadEstudiantesFromStorage();
+    lista.splice(i, 1);
     saveEstudiantesToStorage(lista);
     loadEstudiantes();
 }
 
 // ------------------ Mensajes ------------------
 
-function showMessage(id, msg) { // Muestra un mensaje temporal en el elemento con el ID especificado //
+function showMessage(id, msg) {
     const el = document.getElementById(id);
     el.textContent = msg;
     el.style.display = 'block';

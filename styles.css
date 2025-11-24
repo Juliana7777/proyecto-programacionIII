@@ -1,4 +1,4 @@
-.formato-general {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -118,7 +118,7 @@ button { /* Boton de guardar estudiante */
     width: 100%;
     padding: 14px;
     background: linear-gradient(135deg, #a76245 0%, #520909 100%);
-    color: white;
+    color: rgb(255, 255, 255);
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -133,7 +133,7 @@ button:hover { /*iluminación del botón*/
 }
 
 .delete-btn {  /* Boton de eliminar  a los estudiantes*/
-    background: #e74c3c;
+    background: #eb5a4a;
     color: white;
     border: none;
     padding: 6px 12px;
@@ -183,8 +183,8 @@ td {
 }
 
 .mensaje-error{ /* Si el estudiante no se agregó con éxito a la lista*/
-    background: #e74c3c;
-    color: white;
+
+    color: rgb(232, 37, 37);
     padding: 12px;
     border-radius: 8px;
     margin-bottom: 20px;
