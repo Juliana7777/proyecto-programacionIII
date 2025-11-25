@@ -1,4 +1,5 @@
-* {
+* { /*Selector universal: es para aplicar un estilo a toda la página*/
+    
     margin: 0;
     padding: 0;
     box-sizing: border-box;
